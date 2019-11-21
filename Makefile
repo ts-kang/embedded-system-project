@@ -387,7 +387,7 @@ AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
-LDFLAGS_game = --static-libgcc
+LDFLAGS_game = -lc
 
 KINCLUDE	:= \
 		$(if $(building_out_of_srctree),-I$(srctree)/include) \
@@ -867,7 +867,7 @@ core-y		:= $(patsubst %/, %/built-in.a, $(core-y))
 devices-y	:= $(patsubst %/, %/built-in.a, $(devices-y))
 drivers-y	:= $(patsubst %/, %/built-in.a, $(drivers-y))
 
-game-deps :=  $(core-y)
+game-deps := $(devices-y) $(core-y)
 export LDFLAGS_game
 export KBUILD_ALLDIRS := $(sort $(filter-out arch/%,$(game-alldirs)) include scripts)
 
