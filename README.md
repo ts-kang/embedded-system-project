@@ -27,8 +27,8 @@ Directory Hierarchy
   /step_motor			Step Motor 장치 제어 코드
   /text_lcd			Text LCD 장치 제어 코드
 /drivers			FPGA 장치 드라이버
-  /push_switch_driver		Push Switch 장치 드라이버
-/game				게임 코드
+  /fpga_push_switch		Push Switch 장치 드라이버
+/main				게임 코드
 /include			헤더 파일
 /scripts			빌드 관련 스크립트
 ```
