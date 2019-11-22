@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <err.h>
 
-#define DEV_PATH	"/dev/fpga_dot_matrix"
+#define DEV_PATH	"/dev/fpga_dot"
 #define ROWS		10
 #define COLS		7
 
