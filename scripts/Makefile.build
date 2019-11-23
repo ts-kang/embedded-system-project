@@ -135,6 +135,11 @@ $(obj)/%.ll: $(src)/%.c FORCE
 quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
       cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $<
 
+# C++ (.cpp) files
+
+quiet_cmd_cxx_o_c = CXX $(quiet_modtag) $@
+      cmd_cxx_o_c = $(CXX) $(cxx_flags) -c -o $@ $<
+
 ifdef CONFIG_MODVERSIONS
 # When module versioning is enabled the following steps are executed:
 # o compile a <file>.o from <file>.c
@@ -228,6 +233,10 @@ endif
 $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
 	$(call cmd,force_checksrc)
 	$(call if_changed_rule,cc_o_c)
+
+$(obj)/%.o: $(src)/%.cpp FORCE
+	$(call cmd,force_checksrc)
+	$(call if_changed_rule,cxx_o_c)
 
 cmd_mod = { \
 	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
