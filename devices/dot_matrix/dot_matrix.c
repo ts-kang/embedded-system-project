@@ -19,4 +19,5 @@ void dot_matrix_init()
 void dot_matrix_destroy()
 {
 	close(dev);
+	dev = -1;
 }
