@@ -21,9 +21,12 @@ MainWindow::~MainWindow()
 // dip switch function
 void MainWindow::update()
 {
+    dip_switch_init();
+   
     ui->flagText->setHidden(false);
     ui->timeText->setHidden(false);
-    // level get_dip();
+   
+    level = dip_switch_get();
 
     switch(level){
     case 17:
@@ -90,5 +93,6 @@ void MainWindow::on_Close_BT_clicked()
 void MainWindow::on_gameStartBt_clicked()
 {
     timer->stop();
+     dip_switch_destroy();
     //SLOT(startGame());
 }
