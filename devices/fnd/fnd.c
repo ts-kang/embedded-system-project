@@ -30,7 +30,6 @@ void *t_function(void *data){
        int* difficulty = (int*)data;
         int i = 0;
 
-
         if(*difficulty == 3){
                 i = 7000;
         }else if(*difficulty == 2){
@@ -40,20 +39,10 @@ void *t_function(void *data){
 
         };
 
-        //i = 0xff;
-
-
-
-        //i = 0;
-
         unsigned char str[5] = {1,1,1,1};
-        //sprintf(str, "%.3f", sec);
-
-
+  
         while(i>=0){
-//              fprintf(stdout, "%d\n", i);
-                //write(dev,&i,4);
-                sprintf(str, "%d",i);
+               sprintf(str, "%d",i);
                 write(dev,str,4);
                 i--;
                 usleep(1000);
