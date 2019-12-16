@@ -21,7 +21,7 @@ void dip_switch_init(); //device open
 void dip_switch_destroy(); //device close
 unsigned char dip_switch_get(); //device return flag, time
 
-int main(void)
+/*int main(void)
 {
 	dip_switch_init();
 	(void)signal(SIGINT, user_signal1);
@@ -29,6 +29,7 @@ int main(void)
 	dip_switch_get();
 	dip_switch_destroy();
 }
+*/
 
 void dip_switch_init() {
 	dev = open("/dev/fpga_dip_switch", O_RDWR);
