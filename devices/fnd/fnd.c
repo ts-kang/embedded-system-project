@@ -13,11 +13,21 @@ File : fpga_test_fnd.c*/
 
 #define FND_DEVICE "/dev/fpga_fnd"
 
+void push_switch_init() {
+	dev = open(LED_DEVICE, O_RDWR);
+	if (dev < 0) {
+		printf("push switch device open ERROR!!\n");
+		close(dev);
+		return -1;
+	}
+}
+
+void push_switch_destroy() {
+	close(dev);
+}
+
 void *t_function(void *data){
-        int dev = open(FND_DEVICE, O_RDWR);
-        if (dev < 0)
-                errx(1, FND_DEVICE ": device open error\n");
-        int* difficulty = (int*)data;
+       int* difficulty = (int*)data;
         int i = 0;
 
 
@@ -48,7 +58,6 @@ void *t_function(void *data){
                 i--;
                 usleep(1000);
         }
-        close(dev);
         pthread_exit(NULL);
 }
 
@@ -78,14 +87,12 @@ int main(){
                 printf("ex)./test_led 1234\n");
                 return -1;
         }
-
     str_size=(strlen(argv[1]));
     if(str_size>MAX_DIGIT)
     {
         printf("Warning! 4 Digit number only!\n");
         str_size=MAX_DIGIT;
     }
-
     for(i=0;i<str_size;i++)
     {
         if((argv[1][i]<0x30)||(argv[1][i])>0x39) {
@@ -117,4 +124,3 @@ int main(){
 
         return(0);
 }
-                                   
