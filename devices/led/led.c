@@ -1,3 +1,5 @@
+
+
 /* FPGA LED Test Application
 File : fpga_test_led.c*/
 
@@ -11,15 +13,25 @@ File : fpga_test_led.c*/
 #include <fcntl.h>
 #define LED_DEVICE "/dev/fpga_led"
 
-int data, count, temp;
+static int data, count, temp;
+static int dev = -1;
+
+void push_switch_init() {
+	dev = open(LED_DEVICE, O_RDWR);
+	if (dev < 0) {
+		printf("push switch device open ERROR!!\n");
+		close(dev);
+		return -1;
+	}
+}
+
+void push_switch_destroy() {
+	close(dev);
+}
+
 
 void *t_function(void *d){
-        int dev = open(LED_DEVICE, O_RDWR);
         int i=10;
-        if (dev<0) {
-                printf("Device open error : %s\n",LED_DEVICE);
-                exit(1);
-        }
 
         data = 0; count = 0; temp = 0;
         while(i > 0){
@@ -36,7 +48,6 @@ void *t_function(void *d){
             write(dev, &data, 1);
             usleep(100000);
         }
-          close(dev);
         pthread_exit(NULL);
 }
 
@@ -70,11 +81,7 @@ int main()
                 perror("thread create error : ");
                 exit(0);
         }
-
         pthread_join(p_thread, (void **)&status);
-
-
-
         /*if(argc!=2) {
                 printf("please input the parameter! \n");
                 printf("ex)./test_led 7 (0~255)\n");
@@ -112,4 +119,3 @@ int main()
 
     return(0);
 }
-     
