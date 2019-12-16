@@ -1,0 +1,17 @@
+device
+  bus에 연결되는 물리적 또는 가상의 물체
+
+driver
+  device에 연결되는 소프트웨어, 관리기능 등을 수행할 수 있음
+
+bus
+  다른 device가 연결되는 device
+
+class
+  device의 종류를 나타내며 특정 기능 수행 가능. 예를 들어 디스크, 파티션, 직렬 포트 등이 있음.
+
+subsystem
+
+
+sysfs
+  유저 공간에서 장치를 표현해주는 가상의 파일시스템.
