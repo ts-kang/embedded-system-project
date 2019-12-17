@@ -1,0 +1,18 @@
+# References
+#   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Makefile?id=d6d5df1db6e9d7f8f76d2911707f7d5877251b02
+#   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/Kbuild.include?id=d6d5df1db6e9d7f8f76d2911707f7d5877251b02
+
+squote := '
+escsq = $(subst $(squote),'\$(squote)',$1)
+
+echo-cmd = $(if $($(quiet)cmd_$(1)),echo '  $(call escsq,$($(quiet)cmd_$(1)))';)
+
+cmd = @set -e; $(echo-cmd) $(cmd_$(1))
+
+# Do not use make's built-in rules and variables
+# (this increases performance and avoids hard-to-debug behaviour)
+MAKEFLAGS += -rR
+
+build		:= -f scripts/Makefile.build obj
+build_qt	:= -f scripts/Makefile.build_qt obj
+clean		:= -f scripts/Makefile.clean obj

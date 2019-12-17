@@ -1,0 +1,9 @@
+obj-y += buzzer/
+obj-y += camera/
+obj-y += dip_switch/
+obj-y += dot_matrix/
+#obj-y += fnd/
+#obj-y += led/
+#obj-y += push_switch/
+#obj-y += step_motor/
+obj-y += text_lcd/
