@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QTimer>
-
+#include <QTime>
+#include <QString>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -13,10 +14,11 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <signal.h>
+extern "C" {
+#include <devices/dip_switch.h>
+#include <devices/step_motor.h>
+}
 
-#define FPGA_DIP_SWITCH_DEVICE "/dev/fpga_dip_switch"
-#define MOTOR_ATTRIBUTE_ERROR_RANGE 4
-#define FPGA_STEP_MOTOR_DEVICE "/dev/fpga_step_motor"
 
 namespace Ui {
 class MainWindow;
@@ -35,17 +37,18 @@ private slots:
      void update();
     void on_Close_BT_clicked();
     void on_gameStartBt_clicked();
+    void startGame();
+    void on_setFlag_clicked();
+    void success();
+    void fail();
+
 
 private:
     Ui::MainWindow *ui;
-    int dev_dip, dev_step, dev_led, dev_push;
-    unsigned char dip_sw_buff;
     QMessageBox msgBox;
-    int motor_action;
-    int motor_direction;
-    int motor_speed;
-    unsigned char motor_state[3];
     QTimer *timer ;
+    unsigned char flag, time;
+
 };
 
 #endif // MAINWINDOW_H
