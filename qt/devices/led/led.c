@@ -36,7 +36,7 @@ pthread_t *led_thread(){
         perror("thread create error : ");
         exit(1);
      }
-     return pthread;
+     return &pthread;
 }
 
 void *t_function(void *data){
