@@ -14,11 +14,11 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <signal.h>
+#include <QLayoutItem>
 extern "C" {
-#include <devices/dip_switch.h>
-#include <devices/step_motor.h>
+    #include <devices/dip_switch.h>
+    #include <devices/step_motor.h>
 }
-
 
 namespace Ui {
 class MainWindow;
@@ -33,8 +33,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_Active_BT_toggled();
-     void update();
+    void on_Active_BT_clicked();
+    void setFlag();
+    void setTime();
     void on_Close_BT_clicked();
     void on_gameStartBt_clicked();
     void startGame();
@@ -42,12 +43,13 @@ private slots:
     void success();
     void fail();
 
+    void on_setTime_clicked();
 
 private:
     Ui::MainWindow *ui;
     QMessageBox msgBox;
     QTimer *timer ;
-    unsigned char flag, time;
+    int flag, time;
 
 };
 

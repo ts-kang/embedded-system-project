@@ -3,7 +3,7 @@
 
 void step_motor_init(void);
 void step_motor_destroy(void);
-void step_motor_run(unsigned char motor_state);
-void step_motor_stop(unsigned char motor_state);
+void step_motor_run(void);
+void step_motor_stop(void);
 
 #endif /* _STEP_MOTOR_H_ */

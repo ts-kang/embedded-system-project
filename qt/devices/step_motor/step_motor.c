@@ -21,20 +21,16 @@ void main(){
 */
 
 static int dev = -1
+static unsigned char motor_state_stop[3] = {0, 0, 0};
+static unsigned char motor_state_run[3] = {1, 0, 250};
 
-void step_motor_stop(unsigned char * motor_state){
-    motor_state[0] = 0;
-        motor_state[1]= 0;
-        motor_state[2] = 0;
-        write(dev, motor_state, 3);
+void step_motor_stop(){
+        write(dev, motor_state_stop, 3);
 
 }
 
-void step_motor_run(unsigned char * motor_state){
-    motor_state[0] = 1;
-    motor_state[1] = 0;
-    motor_state[2] = 250;
-    write(dev, motor_state, 3);
+void step_motor_run(){
+    write(dev, motor_state_run, 3);
 }
 void step_motor_destroy(){
     close(dev);

@@ -66,8 +66,11 @@ modules.order
 /game
 
 # Qt
+*.pro.user
+*.pro.user.*
 moc_*.cpp
 ui_*.h
+qrc_*.cpp
 
 #
 # RPM spec file (make rpm-pkg)

@@ -14,12 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp\
-        dip.c \
-    step.c
+        #dip.c \
+   # step.c
 
 HEADERS  += mainwindow.h \
-    dip.h \
-    step.h
+   # dip.h \
+   # step.h
 
 FORMS    += mainwindow.ui
 
