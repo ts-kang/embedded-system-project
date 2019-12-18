@@ -1,0 +1,33 @@
+obj-y :=
+qt_window :=
+qt_resources :=
+include $(obj)/Makefile
+
+obj-y += $(patsubst %,%.o,$(qt_window))
+obj-y += $(patsubst %,moc_%.o,$(qt_window))
+
+obj-y += $(patsubst %,qrc_%.o,$(qt_resources))
+
+obj-y := $(patsubst %,$(obj)/%, $(obj-y))
+obj-y := $(patsubst %/,%/built-in.o, $(obj-y))
+
+include scripts/Makefile.build
+
+DEFINES		:= -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+CXXFLAGS	:= $(DEFINES) -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/testQt/qt_fpga_step_motor -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I$(obj) -I/usr/include/c++/6 -I/usr/include/arm-linux-gnueabihf/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/arm-linux-gnueabihf/6/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/6/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include
+
+$(obj)/moc_%.cpp: $(obj)/%.h \
+		/usr/lib/arm-linux-gnueabihf/qt5/bin/moc
+	/usr/lib/arm-linux-gnueabihf/qt5/bin/moc $(DEFINES) -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/testQt/qt_fpga_step_motor -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I$(obj) -I/usr/include/c++/6 -I/usr/include/arm-linux-gnueabihf/c++/6 -I/usr/include/c++/6/backward -I/usr/lib/gcc/arm-linux-gnueabihf/6/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/6/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include $< -o $@
+
+$(obj)/ui_%.h: $(obj)/%.ui \
+		/usr/lib/arm-linux-gnueabihf/qt5/bin/uic
+	/usr/lib/arm-linux-gnueabihf/qt5/bin/uic $< -o $@
+
+$(obj)/qrc_%.cpp: $(obj)/%.qrc \
+		/usr/lib/arm-linux-gnueabihf/qt5/bin/rcc \
+		$(wildcard $(obj)/*.png)
+	/usr/lib/arm-linux-gnueabihf/qt5/bin/rcc -name resources $< -o $@
+
+$(obj)/qrc_%.o: $(obj)/qrc_%.cpp
+	$(call cmd,cxx_o_c)

@@ -13,11 +13,6 @@ cmd = @set -e; $(echo-cmd) $(cmd_$(1))
 # (this increases performance and avoids hard-to-debug behaviour)
 MAKEFLAGS += -rR
 
-quiet_cmd_rmdirs = $(if $(wildcard $(rm-dirs)),CLEAN   $(wildcard $(rm-dirs)))
-      cmd_rmdirs = rm -rf $(rm-dirs)
-
-quiet_cmd_rmfiles = $(if $(wildcard $(rm-files)),CLEAN   $(wildcard $(rm-files)))
-      cmd_rmfiles = rm -f $(rm-files)
-
-
-build := -f scripts/Makefile.build obj
+build		:= -f scripts/Makefile.build obj
+build_qt	:= -f scripts/Makefile.build_qt obj
+clean		:= -f scripts/Makefile.clean obj

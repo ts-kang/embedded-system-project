@@ -1,0 +1,35 @@
+include scripts/Makefile.include
+
+ifndef obj
+  $(error obj not defined)
+endif
+
+all: clean
+include $(obj)/Makefile
+
+rm-files := $(obj-y)
+rm-files += built-in.o
+rm-files := $(patsubst %,$(obj)/%, $(rm-files))
+rm-files := $(addprefix _clean_, $(rm-files))
+
+subdirs := $(filter %/, $(rm-files))
+rm-files := $(filter-out %/, $(rm-files))
+rm-files += $(rm-files:.o=.d)
+
+# Qt
+rm-files += $(wildcard $(addprefix $(obj)/,moc_*.cpp ui_*.h qrc_*.cpp))
+
+PHONY := _clean_$(obj)
+quiet_cmd_clean_print = CLEAN   $(obj)
+clean: $(rm-files) $(subdirs)
+	$(call cmd,clean_print)
+
+PHONY += $(rm-files)
+$(rm-files):
+	rm -rf $(subst _clean_,,$@)
+
+PHONY += $(subdirs)
+$(subdirs):
+	@$(MAKE) -s $(clean)=$(patsubst %/,%,$(subst _clean_,,$@))
+
+.PHONY: $(PHONY)

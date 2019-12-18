@@ -1,17 +1,19 @@
 include scripts/Makefile.include
 
-target = $(obj)/built-in.o
-
-ifdef obj
-  obj-y :=
-all: $(target)
-  include $(obj)/Makefile
-else
-  obj := .
+ifndef obj
+  $(error obj not defined)
 endif
 
-obj-y := $(patsubst %,$(obj)/%, $(obj-y))
-obj-y := $(patsubst %/,%/built-in.o, $(obj-y))
+target = $(obj)/built-in.o
+all: $(target)
+
+ifndef obj-y
+  obj-y :=
+  include $(obj)/Makefile
+
+  obj-y := $(patsubst %,$(obj)/%, $(obj-y))
+  obj-y := $(patsubst %/,%/built-in.o, $(obj-y))
+endif
 
 quiet_cmd_ld_r = LD      $@
       cmd_ld_r = $(LD) -r -o $@ $^
