@@ -13,7 +13,7 @@ File : fpga_test_fnd.c*/
 
 #define FND_DEVICE "/dev/fpga_fnd"
 
-void push_switch_init() {
+void fnd_init() {
 	dev = open(LED_DEVICE, O_RDWR);
 	if (dev < 0) {
 		printf("push switch device open ERROR!!\n");
@@ -22,7 +22,7 @@ void push_switch_init() {
 	}
 }
 
-void push_switch_destroy() {
+void fnd_destroy() {
 	close(dev);
 }
 
