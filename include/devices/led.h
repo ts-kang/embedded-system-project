@@ -5,6 +5,7 @@
 void led_init(void);
 void led_destroy(void);
 
-void *t_function(void *);
+pthread_t *led_thread();
+void *t_function(void *)
 
 #endif /* _LED_H_ */
