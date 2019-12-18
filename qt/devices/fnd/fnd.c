@@ -25,10 +25,6 @@ void fnd_init() {
 void fnd_destroy() {
 	close(dev);
 }
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-
 pthread_t *fnd_thread(int num){
       int thr_id;
       pthread_t *p_thread = malloc(sizeof(pthread_t));
