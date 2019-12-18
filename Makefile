@@ -36,7 +36,10 @@ CFLAGS += -D_REENTRANT
 
 # Qt5 options
 LDFLAGS		+= -lQt5Widgets -lQt5Gui -lQt5Core -lGLESv2
-CXXFLAGS	+= -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -isystem /usr/include/arm-linux-gnueabihf/qt5 -isystem /usr/include/arm-linux-gnueabihf/qt5/QtWidgets -isystem /usr/include/arm-linux-gnueabihf/qt5/QtGui -isystem /usr/include/arm-linux-gnueabihf/qt5/QtCore -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I./qt
+CXXFLAGS	+= -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
+
+export CC CXX AR LD CFLAGS CXXFLAGS LDFLAGS quiet
+include scripts/Makefile.include
 
 PHONY := all
 all: game
@@ -46,11 +49,8 @@ quiet_cmd_cxx = CXX     $@
 game: qt/built-in.o
 	$(call cmd,cxx)
 
-export CC CXX AR LD CFLAGS CXXFLAGS LDFLAGS quiet
-include scripts/Makefile.build
-
 qt/built-in.o: FORCE
-	@$(MAKE) -s $(build)=$(obj)/qt
+	@$(MAKE) -s $(build_qt)=qt
 
 # Make drivers
 export KDIR ?= /work/achro-em/kernel
@@ -63,11 +63,19 @@ drivers:
 drivers/%:
 	@$(MAKE) -f drivers/Makefile modtree=drivers $*
 
+quiet_cmd_clean = CLEAN   $(2)
+      cmd_clean = rm -f $(2)
 PHONY += clean
-clean: rm-files := core **/*.d **/*.o **/*.ko game
 clean:
-	$(call cmd,rmfiles)
-	@$(MAKE) -f drivers/Makefile modtree=drivers clean
+	$(call cmd,clean,core game)
+	@$(MAKE) -s $(clean)=qt
+#	@$(MAKE) -s $(clean)=drivers quiet=$(quiet)
+
+# PHONY += clean
+# clean: rm-files := core **/*.d **/*.o **/*.ko game
+# clean:
+# 	$(call cmd,rmfiles)
+# 	@$(MAKE) -f drivers/Makefile modtree=drivers clean
 
 PHONY += FORCE
 FORCE:
